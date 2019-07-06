@@ -1,0 +1,68 @@
+// Đây là phương pháp dễ nhất 
+// Sử dụng Phương Pháp Sinh
+// B1: tìm tất cả các chỉnh hợp lặp chập k
+// B2: Chỉ in ra các chỉnh hợp có số phần tử khác nhau hoàn toàn, tức in ra chỉ hợp không lặp chập k
+// Ưu điểm: Dễ 
+// Nhược điểm: Chạy lâu
+
+
+#include <iostream>
+using namespace std;
+
+bool check = true;
+
+void nhap(int *a,int k){
+	for(int i=0;i<k;i++){
+		a[i] = 1;
+	}
+}
+
+void xuat(int *a, int k){
+	for(int i=0;i<k;i++){
+		cout << a[i] << " ";
+	}
+	cout << endl;
+}
+
+bool checka(int *a, int k){
+	for(int i=0;i<k;i++){
+		for(int j=0;j<k;j++){
+			if(a[i] == a[j] && i!=j) return false;
+		}
+	}
+	return true;
+}
+
+void thuattoan(int *a, int n, int k){
+	//1
+	int x = k-1;
+	while(x>=0 && a[x] == n) x--;
+	//2
+	if(x < 0){
+		check = false;
+		return;
+	}
+	//3
+	if(x>=0){
+		a[x]++;
+		for(int i=x+1;i<k;i++){
+			a[i] = 1;
+		}
+	}
+	
+}
+
+int main(){
+	int n;
+	cin >> n;
+	int k;
+	cin >> k;
+	int *a = new int[k];
+	nhap(a,k);
+	while(check == true){
+		if(checka(a,k) == true) xuat(a,k);
+		thuattoan(a,n,k);		
+	}
+	delete(a);
+	return 0;
+}
