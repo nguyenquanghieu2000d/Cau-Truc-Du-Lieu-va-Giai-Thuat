@@ -1,0 +1,54 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+bool check = true;
+
+void swap(char &x, char &y){
+	int temp = x;
+	x = y;
+	y = temp;
+}
+
+void bubbleSort(string &a, int x, int y){
+	for(int i=x;i<y;i++){
+		for(int j=y-1;j>i;j--){
+			if(a[j] < a[j-1]) swap(a[j], a[j-1]);	
+		}
+	}
+}
+
+void thuattoan(string &a){
+	//1
+	int n = a.length();
+	int x = n-1;
+	while(x>=0 && a[x] <= a[x-1]) x--;
+	//2
+	if(x<=0){
+		check = false;
+		return;
+	}
+	//3
+	if(x == n-1) swap(a[x],a[x-1]);
+	else{
+		int y = x;
+		bubbleSort(a,x,n);
+		while(a[x-1] >= a[y]) y++;
+		swap(a[x-1], a[y]);
+		bubbleSort(a,x,n);
+	}
+}
+
+int main(){
+	string a;
+	getline(cin,a);
+	bubbleSort(a,0,a.length());
+	int count = 0;
+	while(check == true){
+		count++;
+		cout << a << endl;
+		thuattoan(a);
+	}
+	cout << count;     
+	return 0;
+}
