@@ -1,0 +1,76 @@
+Liệt kê tất cả các cách phân tích số nguyên dương n thành tổng các số nguyên dương, hai cách phân tích là hoán vị chỉ tính là 1 cách
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+bool check = true;
+
+vector<int> check1;
+
+void xuat(vector<int> arr, int m) {
+	for (int i = 0; i <= m; i++) {
+		cout << arr.at(i) << " ";
+	}
+	cout << endl;
+}
+
+void thuattoan(vector<int> &arr, int n) {
+	//1
+	int x = arr.size() - 1;
+	while (x >= 0 && arr.at(x) == n ) x--;
+	//2
+	if (x < 0) {
+		check = false;
+		return;
+	}
+	//3
+	arr.at(x)++;
+	for (unsigned int i = x; i < arr.size() - 1; i++) {
+		arr.at(i+1) = arr.at(x);
+	}
+}
+
+
+bool loc(vector<int> arr, int &m, int n) {
+	int tong = 0;
+	for (unsigned int i = 0; i < arr.size(); i++) {
+		tong += arr.at(i);
+		if (tong == n) {
+			m = i;
+			return true;
+		}
+	}
+	return false;
+}
+
+bool loc1(vector<int> arr) {
+	int count = 0;
+	for (unsigned int i = 0; i < check1.size(); i++) {
+		if (check1.at(i) != arr.at(i)) return true;
+	}
+	return false;
+}
+
+int main() {
+	int n;
+	cin >> n;
+	vector<int> arr;
+	for (int i = 0; i < n; i++) arr.emplace_back(1);
+	check1.emplace_back(-1);
+	int m;
+	while (check == true) {
+		if (loc(arr, m, n) == true && loc1(arr) == true) {
+			xuat(arr, m);
+			check1.clear();
+		}
+		else check1.clear();
+		for (int i = 0; i <= m; i++) {
+			check1.emplace_back(arr.at(i));
+		}
+		thuattoan(arr, n);
+
+	}
+	return 0;
+}
